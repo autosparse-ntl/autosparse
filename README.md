@@ -15,7 +15,3 @@ It includes the main AutoSparse code and the TargetFT attack baselines used in t
 - `attacks/bitfit.py`
 - `attacks/sparse_ft.py`
 - `attacks/full_finetuning.py`
-
-## Notes
-
-Datasets and checkpoints are not included.
