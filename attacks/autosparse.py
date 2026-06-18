@@ -10,7 +10,7 @@ from tqdm import tqdm
 ROOT = "."
 DATA_ROOT = "./datasets"
 CKPT_ROOT = os.path.join(ROOT, "checkpoints")
-OUT_DIR = os.path.join(ROOT, "attack", "rasp_results")
+OUT_DIR = os.path.join(ROOT, "attack", "autosparse_results")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -36,7 +36,7 @@ SAMPLE_BETA = 0.50
 HEAD_LR_MULT = 5.0
 TRAIN_CLASSIFIER = False
 TRAIN_FINAL_HEAD_ONLY = True
-MODE = "RASP"
+MODE = "AutoSparse"
 
 AE_RESIDUAL_LAMBDA = 0.02
 
@@ -60,9 +60,9 @@ CHECKPOINTS = {
     "cuti_cifar_stl_vgg19": {"method":"CUTI","name":"cuti_cifar_stl_vgg19","type":"vgg","arch":"vgg19","dataset":"STL10","task":"CIFAR10_to_STL10","path":os.path.join(CKPT_ROOT,"cuti_cifar_stl_vgg19.pth"),"target_to_beat":77.06},
 }
 
-CSV_PATH = os.path.join(OUT_DIR, "master_rasp.csv")
+CSV_PATH = os.path.join(OUT_DIR, "master_autosparse.csv")
 SUMMARY_PATH = None
-SEED_SUMMARY_CSV = os.path.join(OUT_DIR, "rasp_seed_summary.csv")
+SEED_SUMMARY_CSV = os.path.join(OUT_DIR, "autosparse_seed_summary.csv")
 
 CSV_HEADER = [
     "seed","method","checkpoint_name","dataset","task","arch","checkpoint",
@@ -670,7 +670,7 @@ def train_recovery(info, model, missing, unexpected, channel_scores, num_scored_
     target = info["target_to_beat"]
 
     print("=" * 100)
-    print("RASP RECOVERY")
+    print("AutoSparse RECOVERY")
     print(f"Checkpoint: {info['name']}")
     print(f"Arch      : {info['arch']}")
     print(f"Dataset   : {info['dataset']}")
@@ -688,7 +688,7 @@ def train_recovery(info, model, missing, unexpected, channel_scores, num_scored_
         start = time.perf_counter()
         model.train()
 
-        for x, y in tqdm(train_loader, desc=f"{info['name']} RASP E{epoch}", leave=False):
+        for x, y in tqdm(train_loader, desc=f"{info['name']} AutoSparse E{epoch}", leave=False):
             x = x.to(DEVICE, non_blocking=True)
             y = y.to(DEVICE, non_blocking=True)
 
@@ -743,7 +743,7 @@ def train_recovery(info, model, missing, unexpected, channel_scores, num_scored_
 
             pred_file = os.path.join(
                 OUT_DIR,
-                f"{info['name']}_rasp_seed{CURRENT_SEED}_predictions.csv"
+                f"{info['name']}_autosparse_seed{CURRENT_SEED}_predictions.csv"
             )
 
             save_predictions(model, test_loader, pred_file)
@@ -771,7 +771,7 @@ def train_recovery(info, model, missing, unexpected, channel_scores, num_scored_
         current_head_lr = optimizer.param_groups[1]["lr"]
 
         print(
-            f"RASP | epoch {epoch:03d}/{EPOCHS} | "
+            f"AutoSparse | epoch {epoch:03d}/{EPOCHS} | "
             f"acc={acc:.2f}% | loss={loss_val:.4f} | "
             f"best={best_acc:.2f}% @ {best_epoch} | "
             f"target={target:.2f}% | beat={beat} | "
@@ -896,7 +896,7 @@ def main():
 
     SUMMARY_PATH = os.path.join(
         OUT_DIR,
-        f"rasp_summary_seed_{CURRENT_SEED}.txt"
+        f"autosparse_summary_seed_{CURRENT_SEED}.txt"
     )
 
     EPOCHS = args.epochs
