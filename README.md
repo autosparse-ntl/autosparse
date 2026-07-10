@@ -1,17 +1,49 @@
 # AutoSparse
 
-## Overview
+Anonymous code release accompanying a manuscript under review.
 
-This repository contains the code used for the paper evaluation.
+This repository contains the implementation of AutoSparse together with the parameter-efficient TargetFT attack baselines used in the experimental evaluation.
 
-It includes the main AutoSparse code and the TargetFT attack baselines used in the experiments.
+The study investigates whether Non-Transferable Learning defenses remain effective when an attacker applies modern fine-tuning methods under a limited trainable-parameter budget.
 
-## Contents
+The datasets and protected model checkpoints are not included in this repository; the datasets are publicly available from their original sources, and the checkpoints can be reproduced using the corresponding methods and experimental settings provided in NTLBench.
 
-- `attacks/autosparse.py`
-- `attacks/lora.py`
-- `attacks/dora.py`
-- `attacks/qlora.py`
-- `attacks/bitfit.py`
-- `attacks/sparse_ft.py`
-- `attacks/full_finetuning.py`
+## Included methods
+
+- AutoSparse
+- LoRA
+- DoRA
+- QLoRA
+- BitFit
+- Sparse fine-tuning
+- Full fine-tuning
+
+## Repository structure
+
+```text
+attacks/
+├── autosparse.py
+├── lora.py
+├── dora.py
+├── qlora.py
+├── bitfit.py
+├── sparse_ft.py
+└── full_finetuning.py
+
+requirements.txt
+README.md
+```
+
+## Usage
+
+To view the available AutoSparse options:
+
+```bash
+python attacks/autosparse.py --help
+```
+
+The remaining attack implementations are available in the corresponding files under the `attacks/` directory.
+
+## Anonymous review
+
+This repository has been prepared for anonymous peer review.
