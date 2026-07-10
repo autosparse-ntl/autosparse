@@ -36,13 +36,7 @@ README.md
 
 ## Usage
 
-To view the available AutoSparse options:
-
-```bash
-python attacks/autosparse.py --help
-```
-
-The remaining attack implementations are available in the corresponding files under the `attacks/` directory.
+The attack implementations are provided in the corresponding files under the `attacks/` directory.
 
 ## Anonymous review
 
